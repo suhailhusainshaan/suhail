@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Saving Calculator</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!--<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <style>
+
+        @font-face {
+            font-family: 'Roboto', sans-serif;
+            src: url(font/Raleway-Regular_0.ttf);
+        }
+        body{font-family: 'Roboto', sans-serif;}
+
+        .color-red{color:#cd2827}
+        .font11{font-size:11px;}
+
+        section{margin-bottom:1em;}
+
+        .custab {border: 1px solid #ededed;padding: 5px;margin: 5px 0;box-shadow: 1px 1px 0px #c8c8c8;transition: 0.5s;}
+        .custab:hover {box-shadow: 3px 3px 0px transparent;transition: 0.5s;}
+
+        .banner {background: #d8d8d8;}
+        .form-control {width: 60%;margin: 0 auto;}
+
+        thead {background: linear-gradient(180deg, rgb(230, 82, 81) 0%, rgb(205, 40, 39) 100%);color: #fff;}
+        .table > thead > tr > th {padding-top: 15px;padding-bottom: 15px;vertical-align: middle;font-size: 14px;text-align: center;text-transform: uppercase;}
+        .table > tbody > tr > td {padding: 12px;vertical-align: unset;text-align: center;border-top: 1px solid #eee;}
+        .table > tbody > tr > td:nth-child(1) {max-width: 300px;width: 300px;}
+
+        tfoot {background: linear-gradient(180deg, rgb(230, 82, 81) 0%, rgb(205, 40, 39) 100%);color: #fff;font-size: 15px;font-weight: bolder;text-align: center;}
+        .table > tfoot > tr > td {padding-top: 15px;padding-bottom: 15px;text-transform: uppercase;font-size: 14px;}
+
+        .nav-tabs.nav-justified > li > a {border-radius: 9px 9px 0 0;}
+        .nav-tabs.nav-justified {border-top-right-radius: 9px;border-top-left-radius: 9px;overflow: hidden;}
+        .nav-tabs > li.active > a::before {content: '';height: 20px;width: 10px;border-right: 20px solid rgba(238, 28, 37, 0);position: absolute;left: -21px;bottom: 1px;box-shadow: 12px 1px 0px 1px #cd2827;border-bottom-right-radius: 9px;z-index: 3;transition: 0.3s;}
+        .nav-tabs>li.active>a::after{content: '';height: 20px;width: 10px;border-left: 20px solid rgba(238, 28, 37, 0);position: absolute;right: -21px;bottom: 1px;box-shadow: -12px 1px 0px 1px #cd2827;border-bottom-left-radius: 9px;z-index: 3;transition: 0.3s;}
+        
+        .nav-tabs{border-bottom: 1px solid #5f5f5f;background: linear-gradient(180deg, rgba(147,130,130,1) 0%, rgba(95,95,95,1) 100%);padding: 0;}
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{color: #ffffff;cursor: default; background-color: #cd2827;border-top-right-radius: 9px;border-top-left-radius: 9px;font-weight: bold;border-bottom-color: #ffffff;border: 1px solid #cd2827 !important;text-transform: inherit;}
+        .nav-tabs.nav-justified > li > a {border-bottom: 1px solid #5f5f5f;}
+        .nav-tabs > li > a {margin-right: 2px;line-height: 1.42857143;border-bottom: 1px solid #bfbfbf;border-radius: 0;color: #ffffff;text-transform: inherit;}
+        .nav-tabs>li>a:hover{border-color: #cd2827 #cd2827 #cd2827;}
+        .nav>li>a:focus, .nav>li>a:hover{background-color: #cd2827;color: #ffffff;/*border-top-right-radius: 7px;border-top-left-radius: 7px;*/}
+        .nav-tabs.nav-justified>li>a{margin-bottom: 0px;}
+            /*.nav-tabs.nav-justified > li > a {
+                border-radius: 0 !important;
+            }*/
+
+        .welcome > h3 {margin-top: 3%;margin-bottom: 2%;}
+        
+        #qr_code img{ margin:0px auto; }
+        .input_readonly_text {
+           display: block;
+           width: 60%;
+           margin: 0 auto;
+           height: 34px;
+           padding: 6px 12px;
+           font-size: 14px;
+           line-height: 1.42857143;
+           color: #555;
+           background-color: #fff;
+           background-image: none;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+           -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+           box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+           -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+           -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+           transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+           text-align: center;
+       }
+
+        @media (max-width:767px) {.form-control {width: unset;}.table > tbody > tr > td:nth-child(1) {max-width: 25%;width: 25%;}}
+        @media (max-width:768px){.nav>li>a{padding: 10px 10px;}.welcome h2{font-size:22px;}.input_readonly_text{width:66%}}
+        @media (min-width:280px) and (max-width:580px) {
+        /*.welcome > h3 { font-size: 18px; }*/
+        .welcome p { font-size: 12px; }
+        .table > tbody > tr > td:nth-child(1) { font-size: 12px; padding: 5px; vertical-align: middle; }
+        .table > thead > tr > th { font-size: 12px; padding-top: 5px; padding-bottom: 5px; }
+        .table > tfoot > tr > td{padding-top: 5px; padding-bottom: 5px;}
+        }
+
+    </style>
+
+    <script>
+
+        var total = 0;
+        var total_apparels_online = 0;
+        var total_apparels_store = 0;
+        var total_ecommerce = 0;
+        var total_health = 0;
+        var total_fooding = 0;
+        var total_wellness = 0;
+
+        var total_usage = 0;
+        var usage_apparels_online = 0;
+        var usage_apparels_store = 0;
+        var usage_ecommerce = 0;
+        var usage_health = 0;
+        var usage_fooding = 0;
+        var usage_wellness = 0;
+
+        function calculateRow(element) {
+            var Discount_Apparels_Online = 0.05;
+            var Discount_Apparels_Stores = 0.1;
+            var Discount_Ecommerce = 0.04;
+            var Discount_Health = 0.1;
+            var Discount_Fooding = 0.07;
+            var Discount_Welness = 0.15;
+
+            var Discount = 0;
+            var selVal = 0;
+            var usage = 0;
+
+            var name = $(element).attr('name');
+            selVal = $(element).val();
+            usage = selVal * 36;
+
+            if($(element).attr('name') == "Apparels_Online"){
+                total_apparels_online = 0;
+                usage_apparels_online = 0;
+                Discount = usage*Discount_Apparels_Online;
+                total_apparels_online = parseInt(total_apparels_online + Discount); 
+                usage_apparels_online = parseInt(usage_apparels_online + usage); 
+            }
+            else if($(element).attr('name') == "Apparels_Stores"){
+                total_apparels_store = 0;
+                usage_apparels_store = 0;
+                Discount = usage*Discount_Apparels_Stores;
+                total_apparels_store = parseInt(total_apparels_store + Discount);
+                usage_apparels_store = parseInt(usage_apparels_store + usage); 
+            }
+            else if($(element).attr('name') == "Ecommerce"){
+                total_ecommerce = 0;
+                usage_ecommerce = 0;
+                Discount = usage*Discount_Ecommerce;
+                total_ecommerce = parseInt(total_ecommerce + Discount);
+                usage_ecommerce = parseInt(usage_ecommerce + usage); 
+            }
+            else if($(element).attr('name') == "Health"){
+                total_health = 0;
+                usage_health = 0;
+                Discount = usage*Discount_Health;
+                total_health = parseInt(total_health + Discount);
+                usage_health = parseInt(usage_health + usage); 
+            }
+            else if($(element).attr('name') == "Fooding"){
+                total_fooding = 0;
+                usage_fooding = 0;
+                Discount = usage*Discount_Fooding;
+                total_fooding = parseInt(total_fooding + Discount);
+                usage_fooding = parseInt(usage_fooding + usage); 
+            }
+            else if($(element).attr('name') == "Welness_Beauty"){
+                total_wellness = 0;
+                usage_wellness = 0;
+                Discount = usage*Discount_Welness;
+                total_wellness = parseInt(total_wellness + Discount);
+                usage_wellness = parseInt(usage_wellness + usage); 
+            }
+
+            total = parseInt(total_apparels_online + total_apparels_store + total_ecommerce + total_health + total_fooding + total_wellness);
+
+            total_usage = parseInt(usage_apparels_online + usage_apparels_store + usage_ecommerce + usage_health + usage_fooding + usage_wellness);
+
+            $("#" + name + "_threeYearUsage").text(usage);
+            $("#" + name + "_Discount").text(Math.round(Discount));
+
+            $("#Total_Calc_Usage").text("₹ " + Math.round(total_usage));
+            $("#Total_Calc").text("₹ " + Math.round(total));
+        }
+
+        var honda_total = 280;
+        var total_paid_labour = 0;
+        var total_periodic_labour = 0;
+        var total_spare = 0;
+        var total_engine_oil = 0;
+        var total_accessories = 0;
+
+        var honda_total_usage = 280;
+        var usage_paid_labour = 0;
+        var usage_periodic_labour = 0;
+        var usage_spare = 0;
+        var usage_engine_oil = 0;
+        var usage_accessories = 0;
+
+        function calculateHonda(element){
+            var Discount_Paid_Labour = 0.1;
+            var Discount_Periodic_Labour = 1;
+            var Discount_Spare = 0.04;
+            var Discount_Engine_Oil = 0.05;
+            var Discount_Accessories = 0.1;
+
+            var Discount = 0;
+            var selVal = 0;
+            var usage = 0;
+
+            var name = $(element).attr('name');
+            selVal = $(element).val(); 
+
+            usage  = selVal*9;
+
+            if($(element).attr('name') == "paid_labour"){
+                total_paid_labour = 0;
+                usage_paid_labour = 0;
+                Discount = usage*Discount_Paid_Labour;
+                total_paid_labour = total_paid_labour + Discount;  
+                usage_paid_labour = usage_paid_labour + usage; 
+            }
+            else if($(element).attr('name') == "service_labour"){
+                total_periodic_labour = 0;
+                usage_periodic_labour = 0;
+                Discount = usage*Discount_Periodic_Labour;
+                total_periodic_labour = total_periodic_labour + Discount;
+                usage_periodic_labour = usage_periodic_labour + usage; 
+            }
+            else if($(element).attr('name') == "spares_parts"){
+                total_spare = 0;
+                usage_spare = 0;
+                Discount = usage*Discount_Spare;
+                total_spare = total_spare + Discount;
+                usage_spare = usage_spare + usage; 
+            }
+            else if($(element).attr('name') == "engine_oil"){
+                total_engine_oil = 0;
+                usage_engine_oil = 0;
+                Discount = usage*Discount_Engine_Oil;
+                total_engine_oil = total_engine_oil + Discount;
+                usage_engine_oil = usage_engine_oil + usage; 
+            }
+            else if($(element).attr('name') == "Accessories"){
+                total_accessories = 0;
+                usage_accessories = 0;
+                Discount = usage*Discount_Accessories;
+                total_accessories = total_accessories + Discount;
+                usage_accessories = usage_accessories + usage; 
+            }
+            honda_total = total_paid_labour + total_periodic_labour + total_spare + total_engine_oil + total_accessories + 280;
+
+            honda_total_usage = usage_paid_labour + usage_periodic_labour + usage_spare + usage_engine_oil + usage_accessories + 280;
+
+
+            $("#"+name+"_threeYearUsage").text(Math.round(usage));
+            $("#"+name+"_Discount").text(Math.round(Discount));
+            $("#Total_Calc_H").text(Math.round(honda_total));
+            $("#Total_Calc_H_Usage").text(Math.round(honda_total_usage));
+        }
+    </script>
+</head>
+<!------ Include the above in your HEAD tag ---------->
+
+<body>
+    <!--<section>
+        <div class="container-fluid">
+            <div class="banner">
+                <img src="image/HJC_Generic_1350X390.jpg" class="img-responsive">
+            </div>
+        </div>
+    </section>-->
+    <img src="image/Orpay-Banner-1350x390-02.jpg" class="img-responsive">
+    <section>
+        <div class="container text-center welcome"><br />
+            <h2><b>Honda Joy Club <span class="color-red">Savings Calculator</span></b> </h2>
+            <h4>Welcome to the World of <span class="color-red">"Instant Benefits, Instant Joy, Instant Redemption</span>"</h4>
+            <br /><br />
+            <div class="row custyle">
+                <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a data-toggle="tab" href="#brands">Benefits from Partner Brands</a></li>
+                <li><a data-toggle="tab" href="#honda">Benefits from Honda</a></li>
+                <li><a data-toggle="tab" href="#benefits">HJC Member Benefits</a></li>
+                <li><a data-toggle="tab" href="#qr_code">Scan QR Code</a></li>
+            </ul>
+
+                <div class="tab-content">
+                    <div id="brands" class="tab-pane fade in active">
+                        <div class=" ">
+                            <table class="table table-responsive custab">
+                                <thead>
+                                    <!--<a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>-->
+                                    <tr>
+                                        <th>Vouchers</th>
+                                        <th>Monthly Usage</th>
+                                        <th>3 Year Usage</th>
+                                        <th>3 Year Savings</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>Fashion Apparels - Online*</b>
+                                    <br />
+                                            (Myntra : 5%)</td>
+                                        <td>
+                                            <select name="Apparels_Online" id="Apparels_Online" class="form-control" onchange="calculateRow(this);">
+                                                <option value="">Select</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                                <option value="1000">1000</option>
+                                                <option value="2000">2000</option>
+                                                <option value="2500">2500</option>
+                                            </select>
+                                        </td>
+                                        <td id="Apparels_Online_threeYearUsage"></td>
+                                        <td id="Apparels_Online_Discount"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Fashion Apparels - Stores*</b><br />
+                                            (Central / Pantaloon / shopperstop : 10%)</td>
+                                        <td>
+                                            <select name="Apparels_Stores" id="Apparels_Stores" class="form-control" onchange="calculateRow(this);">
+                                                <option value="">Select</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                                <option value="1000">1000</option>
+                                                <option value="2000">2000</option>
+                                                <option value="2500">2500</option>
+                                            </select>
+                                        </td>
+                                        <td id="Apparels_Stores_threeYearUsage"></td>
+                                        <td id="Apparels_Stores_Discount"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Ecommerce*</b>
+                                    <br />
+                                            (Flipkart : 4%)</td>
+                                        <td>
+                                            <select name="Ecommerce" id="Ecommerce" class="form-control" onchange="calculateRow(this);">
+                                                <option value="">Select</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                                <option value="1000">1000</option>
+                                                <option value="2000">2000</option>
+                                                <option value="2500">2500</option>
+                                            </select>
+                                        </td>
+                                        <td id="Ecommerce_threeYearUsage"></td>
+                                        <td id="Ecommerce_Discount"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Health Care*</b><br>
+                                            (H3U / 1MG : 10%)</td>
+                                        <td>
+                                            <select name="Health" id="Health" class="form-control" onchange="calculateRow(this);">
+                                                <option value="">Select</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                                <option value="1000">1000</option>
+                                                <option value="2000">2000</option>
+                                                <option value="2500">2500</option>
+                                            </select>
+                                        </td>
+                                        <td id="Health_threeYearUsage"></td>
+                                        <td id="Health_Discount"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Food & Dining*</b>
+                                    <br />
+                                            (Swiggy / Pizza Hut : 7%)</td>
+                                        <td>
+                                            <select name="Fooding" id="Fooding" class="form-control" onchange="calculateRow(this);">
+                                                <option value="">Select</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                                <option value="1000">1000</option>
+                                                <option value="2000">2000</option>
+                                                <option value="2500">2500</option>
+                                            </select>
+                                        </td>
+                                        <td id="Fooding_threeYearUsage"></td>
+                                        <td id="Fooding_Discount"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Wellness & Beauty*</b>
+                                    <br />
+                                            (VLCC : 15%)</td>
+                                        <td>
+                                            <select name="Welness_Beauty" id="Welness_Beauty" class="form-control" onchange="calculateRow(this);">
+                                                <option value="">Select</option>
+                                                <option value="250">250</option>
+                                                <option value="500">500</option>
+                                                <option value="1000">1000</option>
+                                                <option value="2000">2000</option>
+                                                <option value="2500">2500</option>
+                                            </select>
+                                        </td>
+                                        <td id="Welness_Beauty_threeYearUsage"></td>
+                                        <td id="Welness_Beauty_Discount"></td>
+                                    </tr>
+                                    <tfoot>
+                                        <tr>
+                                            <td>Total Savings</td>
+                                            <td></td>
+                                            <td colspan="1" id="Total_Calc_Usage">&#8377;&nbsp;0</td>
+                                            <td id="Total_Calc">&#8377;&nbsp;0</td>
+                                            <tr>
+                                    </tfoot>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="honda" class="tab-pane fade">
+                        <div class="">
+                        <table class="table table-responsive custab">
+                            <thead>
+                                <!--<a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>-->
+                                <tr>
+                                    <th>Vouchers</th>
+                                    <th>3 Service Per Year</th>
+                                    <th>3 Year Usage</th>
+                                    <th>3 Year Savings</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> <b>Paid Labour*</b>
+                                    <br />
+                                        (10% OFF)</td>
+                                    <td>
+                                        <select name="paid_labour" id="paid_labour" class="form-control" onchange="calculateHonda(this);">
+                                            <option value="">Select</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                            <option value="2000">2000</option>
+                                            <option value="2500">2500</option>
+                                        </select>
+                                    </td>
+                                    <td id="paid_labour_threeYearUsage"></td>
+                                    <td id="paid_labour_Discount"></td>
+                                </tr>
+                                <tr>
+                                    <td> <b>Periodic Paid Service Labour*</b><br />
+                                        (*Above 600 HC & < 250 CC 2 Wheeler)</td>
+                                    <td>
+                                        <select name="service_labour" id="service_labour" class="form-control" onchange="calculateHonda(this);">
+                                            <option value="">Select</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                            <option value="2000">2000</option>
+                                            <option value="2500">2500</option>
+                                        </select>
+                                    </td>
+                                    <td id="service_labour_threeYearUsage"></td>
+                                    <td id="service_labour_Discount"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Spares Parts*</b>
+                                    <br />
+                                        (4% OFF)</td>
+                                    <td>
+                                        <select name="spares_parts" id="spares_parts" class="form-control" onchange="calculateHonda(this);">
+                                            <option value="">Select</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                            <option value="2000">2000</option>
+                                            <option value="2500">2500</option>
+                                        </select>
+                                    </td>
+                                    <td id="spares_parts_threeYearUsage"></td>
+                                    <td id="spares_parts_Discount"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Engine Oil*</b><br>
+                                        (5% OFF)</td>
+                                    <td>
+                                        <select name="engine_oil" id="engine_oil" class="form-control" onchange="calculateHonda(this);">
+                                            <option value="">Select</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                            <option value="2000">2000</option>
+                                            <option value="2500">2500</option>
+                                        </select>
+                                    </td>
+                                    <td id="engine_oil_threeYearUsage"></td>
+                                    <td id="engine_oil_Discount"></td>
+                                </tr>
+                                <tr>
+                                    <td> <b>Accessories* </b>
+                                    <br />
+                                        (10% OFF)</td>
+                                    <td>
+                                        <select name="Accessories" id="Accessories" class="form-control" onchange="calculateHonda(this);">
+                                            <option value="">Select</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                            <option value="2000">2000</option>
+                                            <option value="2500">2500</option>
+                                        </select>
+                                    </td>
+                                    <td id="Accessories_threeYearUsage"></td>
+                                    <td id="Accessories_Discount"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Vehicle Pickup & Drop*</b></td>
+                                    <td>
+                                       <!--  <input type="text" class="input_readonly_text" readonly value="50" /> -->
+
+                                        <select name="Accessories" id="Accessories" class="form-control" disabled>
+                                            <option value="100" selected>100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                        </select>
+                                    <span class="color-red font11">*Once in the Membership period</span>
+                                   </td>
+                                    <td><p>100</p></td>
+                                    <td><p>100</p></td>
+                                </tr>
+                                 <tr>
+                                    <td><b>Vehicle Wash* </b></td>
+                                    <td>
+                                       <select name="Accessories" id="Accessories" class="form-control" disabled>
+                                            <option value="60" selected>60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                        </select>
+                                       <span class="color-red font11">*Maximum 3 times during membership period, once a year.</span>
+                                   </td>
+                                    </td>
+                                    <td><p>180</p></td>
+                                    <td><p>180</p></td>
+                                </tr>
+                                <tfoot>
+                                    <tr>
+                                        <td>Total Savings</td>
+                                        <td></td>
+                                        <td colspan="1" id="">₹&nbsp;<span id="Total_Calc_H_Usage">280</span></td>
+                                        <td id="">₹&nbsp;<span id="Total_Calc_H">280</span></td>
+                                        <tr>
+                                </tfoot>
+                            </tbody>
+                        </table>
+                    </div> </div>
+
+                    <div id="benefits" class="tab-pane fade">
+                        <div style="margin-top:5px;">
+                     <a href="image/HJC_BENEFIT.pdf" target="_blank">
+                        <img src="image/HJC_BENEFIT.jpg" class="img-responsive" />
+                        </a>
+                            </div>
+                    </div>
+                    <div id="qr_code" class="tab-pane fade">
+                        <div style="margin-top:5px;border: 1px solid #eee;padding: 1em;">
+                     
+                        <img src="image/onlink_to_947545_small.png" class="img-responsive" />
+                        
+                            </div>
+                    </div>
+                </div>
+
+                <p>* Above brands/offers are indicative & subject to change. To know more, download the HJC App or visit <a href="https://www.hondajoyclub.com/" target="_blank">www.hondajoyclub.com</a> or call us at <a href="tel:18005322555">1800-532-2555</a>. Terms & Conditions Apply. </p>
+                <br />
+            </div>
+        </div>
+    </section>
+</body>
+</html>
